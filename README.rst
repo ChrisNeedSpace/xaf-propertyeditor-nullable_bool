@@ -1,23 +1,24 @@
 =========================================
-XAF Nullable<bool> Property Editor - v1.0
+XAF Nullable<bool> Property Editor - v2.0
 =========================================
 -----------------------------
 Compatible with XAF versions:
 -----------------------------
 - 12.1.10
 - **WEB only** (for win solution you can check `Boolean property editor`_ solution, however I haven't tested it yet)
-- **Checkbox display mode only** (there is also a combobox display mode)
+- **both Checkbox and ComboBox display modes!**
 
 .. _Boolean property editor: http://www.devexpress.com/Support/Center/Question/Details/Q265460
 
 -----------
 Description
 -----------
-This is a feature for **DevExpress eXpressAppFramework (XAF)** that provides Nullable<bool> Property Editor - automatic mechanism that enables three state checkboxes with Nullable bool properties.
+This is a feature for **DevExpress eXpressAppFramework (XAF)** that provides Nullable<bool> Property Editor - automatic mechanism that enables three state checkbox/combobox with Nullable bool properties.
 
 **Functionality**
 
 - Turns on "ASPxCheckBox.AllowGrayed" flag for all editors whose property type is Nullable<bool> (bool?)
+- For Nullable<bool> fialds that are displayed as Comboboxes, the editor adds a N/A item. (To enable combobox display mode in pure XAF, you just need to define CaptionForTrue and CaptionForFalse props in the Model)
 - Works also for properties from aggregated objects
 
 **Example of use**

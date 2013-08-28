@@ -2,6 +2,7 @@
 using System.Reflection;
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Web.Editors.ASPx;
 using DevExpress.Web.ASPxEditors;
 
@@ -17,9 +18,10 @@ namespace SampleProject.Module.Web.Infrastructure
             var control = base.CreateControlCore();
             if (IsNullable)
             {
-                var checkbox = Editor as ASPxCheckBox;
-                if (checkbox != null)
-                    checkbox.AllowGrayed = true;
+                if (Editor is ASPxCheckBox)
+                    ((ASPxCheckBox)Editor).AllowGrayed = true;
+                else if (Editor is ASPxComboBox)
+                    ((ASPxComboBox)Editor).Items.Insert(0, new ListEditItem(CaptionHelper.NullValueText, null));
             }
             return control;
         }
@@ -27,10 +29,26 @@ namespace SampleProject.Module.Web.Infrastructure
         protected override object GetControlValueCore()
         {
             bool isComboBoxUsed = (IsDefinedBoolCaption || IsDefinedBoolImages);
-            return isComboBoxUsed ? (((ASPxComboBox)Editor).SelectedIndex == 1) : (object)ToBool(((ASPxCheckBox)Editor).CheckState);
+            return isComboBoxUsed ? (object)ToBool(((ASPxComboBox)Editor).SelectedIndex) : (object)ToBool(((ASPxCheckBox)Editor).CheckState);
         }
 
-        private bool IsNullable
+        protected override void ReadEditModeValueCore()
+        {
+            base.ReadEditModeValueCore();
+            
+            bool? value = PropertyValue as bool?;
+            if (IsDefinedBoolImages || IsDefinedBoolCaption)
+            {
+                if (IsNullable)
+                    ((ASPxComboBox)Editor).SelectedIndex = !value.HasValue ? 0 : (value.Value ? 2 : 1);
+                else if (PropertyValue != null)
+                    ((ASPxComboBox)Editor).SelectedIndex = value.Value ? 1 : 0;
+            }
+            else if (PropertyValue != null)
+                ((ASPxCheckBox)Editor).Checked = value.Value;
+        }
+		
+		private bool IsNullable
         {
             get 
             {
@@ -54,6 +72,21 @@ namespace SampleProject.Module.Web.Infrastructure
                 case DevExpress.Web.ASPxClasses.CheckState.Unchecked: return false;
                 case DevExpress.Web.ASPxClasses.CheckState.Indeterminate:
                 default: return null;
+            }
+        }
+		
+		private bool? ToBool(int selectedIndex)
+        {
+            bool isNullable = IsNullable;
+            if (!isNullable)
+            {
+                return selectedIndex == 1;
+            }
+            else
+            {
+                if (selectedIndex <= 0)
+                    return null;
+                return selectedIndex == 2;
             }
         }
 		
