@@ -18,7 +18,7 @@ This is a feature for **DevExpress eXpressAppFramework (XAF)** that provides Nul
 **Functionality**
 
 - Turns on "ASPxCheckBox.AllowGrayed" flag for all editors whose property type is Nullable<bool> (bool?)
-- For Nullable<bool> fialds that are displayed as Comboboxes, the editor adds a N/A item. (To enable combobox display mode in pure XAF, you just need to define CaptionForTrue and CaptionForFalse props in the Model)
+- adds a N/A item for all Nullable<bool> editors that are in Combobox mode. (To enable combobox mode in pure XAF, you just need to define CaptionForTrue and CaptionForFalse props in the Model)
 - Works also for properties from aggregated objects
 
 **Example of use**
