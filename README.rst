@@ -43,7 +43,7 @@ Installation
 .. _XAF: http://go.devexpress.com/DevExpressDownload_UniversalTrial.aspx
 .. _git: http://git-scm.com/
 .. _github:
-.. _project page: https://github.com/KrzysztofKielce/xaf-xaf-propertyeditor-nullable_bool
+.. _project page: https://github.com/KrzysztofKielce/xaf-propertyeditor-nullable_bool
 
 
 ----------
